@@ -1,0 +1,27 @@
+#play{
+    padding: 60px 0px;
+}
+
+#play .icon-box{
+    padding: 5px 20px;
+}
+
+#play .icon-box img{
+    max-height: 30px;
+}
+
+#play .icon-box h5{
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+#play .icon-box p{
+    font-size: 14px;
+}
+
+@media screen and (max-width: 769px) {
+    #play .google{
+        max-width: 20%;
+    }
+}

@@ -1,0 +1,21 @@
+#tokenomics{
+    padding: 60px 0px;
+}
+
+#tokenomics .tokenomics-img img{
+    max-width: 70%;
+}
+
+@media screen and (max-width: 769px) {
+    
+    #tokenomics{
+        padding-bottom: 20px;
+    }
+
+    #tokenomics .tokenomics-img img{
+    
+        max-width: 100%;
+
+    }
+
+}

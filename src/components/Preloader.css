@@ -1,0 +1,19 @@
+#loader {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    z-index: 99999;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background-color: #222255;
+  }
+
+  @media only screen and (max-width: 1200px) {
+    #loader .gif{
+        max-width: 100%;
+      }
+    }
+  

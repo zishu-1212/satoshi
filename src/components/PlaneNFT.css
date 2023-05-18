@@ -1,0 +1,25 @@
+#nft{
+    padding: 60px 0px;
+    background-image: url("../assets/media/coming-soon-nft.png");
+    background-repeat: no-repeat;
+    background-size: 280px;
+    background-position: top right;
+}
+
+#nft .owl-theme .owl-nav.disabled + .owl-dots{
+    display: none !important;
+}
+#nft .opensea-btn{
+    margin: 20px 0px;
+    max-width: 180px;
+}
+
+@media screen and (max-width: 769px) {
+    #nft{
+        padding: 40px 0px;
+        background-image: url("../assets/media/coming-soon-nft.png");
+        background-repeat: no-repeat;
+        background-size: 100px;
+        background-position: top right;
+    }
+}

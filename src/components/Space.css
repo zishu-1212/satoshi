@@ -1,0 +1,28 @@
+#space{
+    padding: 60px 0px;
+    background: linear-gradient(105deg, rgba(29,31,92,1) 0%, rgba(54,30,101,1) 9%, rgba(76,29,109,1) 25%, rgba(145,25,134,1) 43%, rgba(112,20,108,1) 55%, rgba(95,17,94,1) 68%, rgba(74,14,77,1) 79%, rgba(74,14,77,1) 97%);
+    /* background: linear-gradient(105deg, rgba(29,31,92,1) 0%, rgba(145,25,134,1) 42%, rgba(74,14,77,1) 79%); */
+    /* background-image: url('../assets/media/space-project.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; */
+}
+
+#space .section-title, #space .description{
+   color: #fff;
+}
+
+#space .space-img img{
+    max-width: 80%;
+}
+
+@media screen and (max-width: 769px){
+    #space .space-img img{
+        max-width: 100%;
+    }
+    #space p{
+    margin-top: 10px;
+    margin-bottom: 0px;
+   }
+
+}

@@ -1,0 +1,55 @@
+#story{
+    padding: 120px 0px 0px;
+    background-image: url('../assets/media/cloud-left.png'), url('../assets/media/cloud-right.png');
+    background-position: top left, top right;
+    background-size: 430px 307px, 430px 281px;
+    background-repeat: no-repeat, no-repeat;
+}
+
+#story .container{
+    max-width: 800px;
+}
+
+#story .scene .scene-text{
+    padding: 0px 40px;
+}
+
+.owl-prev, .owl-next {
+    width: 15px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: block !important;
+    border:0px solid black;
+}
+.owl-prev { left: -20px; }
+.owl-next { right: -20px; }
+.owl-prev i, .owl-next i {transform : scale(2,5); color: #ccc;}
+
+.owl-prev span, .owl-next span{
+    color: #fff;
+    font-size: 60px;
+}
+.owl-prev span:hover, .owl-next span:hover{
+    color: #2d2d2d;
+    font-size: 70px;
+}
+
+.owl-theme .owl-nav [class*='owl-']:hover{
+    background: none;
+}
+
+@media screen and (max-width: 769px) {
+    #story{
+        padding: 40px 0px 0px;
+        background-image: url('../assets/media/cloud-left.png'), url('../assets/media/cloud-right.png');
+        background-position: top left, top right;
+        background-size: 150px 107px, 150px 98px;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    #story .scene .scene-text{
+        padding: 0px 10px;
+    }
+}

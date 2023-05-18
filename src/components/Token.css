@@ -1,0 +1,38 @@
+#token{
+    padding: 60px 0px;
+}
+#token .dual-token img{
+    text-align: center;
+    max-width: 55%;
+}
+
+#token .dual-btn{
+    display: flex;
+    justify-content: center;
+}
+
+#token .buy-btn a img, #token .dex-btn a img{
+    max-width: 180px;
+}
+
+@media screen and (max-width: 769px) {
+
+    #token{
+        padding-bottom: 0px;
+    }
+
+    #token .token-box img{
+        max-width: 70%;
+    }
+    #token .dual-token img{
+        text-align: center;
+        max-width: 85%;
+    }
+
+    #token .dual-btn{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+}

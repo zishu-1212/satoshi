@@ -1,0 +1,28 @@
+#b-pass{
+    padding: 60px 0px;
+    background-image: url('../assets/media/coming-soon-plane.png'), url('../assets/media/coming-soon-ufo.png');
+    background-position: top right, bottom left;
+    background-size: 350px 78px, 300px 186px;
+    background-repeat: no-repeat, no-repeat;
+}
+
+#b-pass .pass .opensea-btn{
+    margin-top: 40px;
+    max-width: 180px;
+}
+
+#b-pass .pass img{
+    width: 30%;
+    padding-top: 10px;
+}
+
+@media screen and (max-width: 769px) {
+    #b-pass{
+        padding-top: 100px;
+        padding-bottom: 210px;
+    }
+    #b-pass .pass img{
+        width: 70%;
+    }
+    
+}
