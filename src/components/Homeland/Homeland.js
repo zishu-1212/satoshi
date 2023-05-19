@@ -1,26 +1,25 @@
-import React from "react";
-import { useState,useEffect } from "react";
-import homeHeaderImg from "../../assets/Group 773.png";
-import Plane from "../../assets/Plane.png";
-import companyLogo from "../../assets/logo.png";
-import cloudImg from "../../assets/cloud.png";
-import largeCloudImg from "../../assets/largeCloud.png";
-import blackPlane from "../../assets/Planee.png";
-import "./Home.css";
-import pinkPlane from "../../assets/pinkPlane.png";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
 import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import { connectionAction } from "../../redux/connection/actions";
+import { abiConstants, addressConstants } from "../contract/contract";
+import Web3 from "web3";
+import homeHeaderImg from "../../assets/Group 773.png";
+import Plane from "../../assets/Plane.png";
+import companyLogo from "../../assets/logo.png";
+import cloudImg from "../../assets/cloud.png";
+import largeCloudImg from "../../assets/largeCloud.png";
+import blackPlane from "../../assets/Planee.png";
 import { Link } from "react-router-dom";
-
 const steps = [
   {
-    label: "Sap Rewards Via Fly-to-Earn ",
+    label: "Sap Rewards Via Fly-to-Earn",
   },
   {
     label: "SAT Rewards via Travel-to-Earn",
@@ -36,8 +35,31 @@ const steps = [
   },
 ];
 
-
 const Home = () => {
+  const [img, setImg]=useState ("")
+  const dispatch = useDispatch();
+  const addr = useSelector((state) => state.connected.connection);
+
+  const callNFT = async () => {
+    try {
+      const web3 = new Web3(Web3.givenProvider);
+      const contract = new web3.eth.Contract(abiConstants, addressConstants);
+      const tokenId = 13; // Provide the token ID for which you want to retrieve the URI
+      const uri = await contract.methods.tokenURI(tokenId).call();
+      console.log("Token URI:", uri);
+      
+  setImg(uri)
+      // Handle the URI as needed
+    } catch (error) {
+      console.error("Error retrieving token URI:", error);
+      // Handle the error appropriately
+    }
+  };
+
+  useEffect(() => {
+    callNFT();
+  
+  }, []);
 
   return (
     <div className="bgHomeColor py-4 " id="mint">
@@ -72,18 +94,18 @@ const Home = () => {
                     <div>
                       <button
                         className="px-3 py-1 text-uppercase connectWalletBtn py-2 mb-3  fw-bold "
-                        
-                         
+                        onClick={() => {
+                          dispatch(connectionAction())}}
                         
                       >
-                       
-                        Connect Wallet
+                {addr}
+                        {/* Connect Wallet */}
                        
                       </button>
                     </div>
 
                     <div className="d-flex justify-content-evenly   ">
-                      <button className="homeCardBtn" > MINT </button>
+                      <button className="homeCardBtn"onClick={()=>{callNFT()}} > MINT </button>
                       <Link to="/myNft">
                         <button
                           className="homeCardBtn"
@@ -118,7 +140,8 @@ const Home = () => {
                   <h4 className="fw-bold pb-5">NFT CARD OWNERSHIP FEATURES</h4>
                 </div>
                 <div className="">
-                  <Box sx={{ maxWidth: 400 }}>
+                <img src={img} width="200px"/>
+                  {/* <Box sx={{ maxWidth: 400 }}>
                     <Stepper orientation="vertical">
                       {steps.map((step, index) => (
                         <Step key={step.label}>
@@ -135,7 +158,7 @@ const Home = () => {
                         </Step>
                       ))}
                     </Stepper>
-                  </Box>
+                  </Box> */}
                 </div>
               </div>
             </div>

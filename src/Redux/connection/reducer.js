@@ -1,8 +1,7 @@
 import { ActionTypes } from "../types";
 
 const INITIAL_STATE = {
-  acc: "Connect Wallet",
-  isWalletConnect: false,
+  connection: "Connect Wallet",
 };
 
 const connectReducer = (state = INITIAL_STATE, action) => {
@@ -10,8 +9,7 @@ const connectReducer = (state = INITIAL_STATE, action) => {
     case ActionTypes.CONNECT:
       return {
         ...state,
-        acc: action.payload.myAcc,
-        isWalletConnect: action.payload.isWalletConnect,
+        connection: action.payload,
       };
     default:
       return state;
