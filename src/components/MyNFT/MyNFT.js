@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useState } from "react";
 import "./MyNft.css";
 import pinkPlane from "../../assets/blackPlane.png";
 import NftTransferModel from "../../Model/NftTransferModel";
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 const MyNFT = ({ myNftCardData, connect, address }) => {
   const dispatch = useDispatch();
   const addr = useSelector((state) => state.connected.connection);
+
   // console.log(addr);
 
 

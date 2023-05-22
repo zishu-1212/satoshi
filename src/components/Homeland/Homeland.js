@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import { connectionAction } from "../../redux/connection/actions";
 import { abiConstants, addressConstants } from "../contract/contract";
 import Web3 from "web3";
+import "./Home.css"
 import homeHeaderImg from "../../assets/Group 773.png";
 import Plane from "../../assets/Plane.png";
 import companyLogo from "../../assets/logo.png";
@@ -36,30 +37,59 @@ const steps = [
 ];
 
 const Home = () => {
+const [count, setCount] = useState(0);
+const [mintedNFTs, setMintedNFTs] = useState([]);
+
   const [img, setImg]=useState ("")
   const dispatch = useDispatch();
   const addr = useSelector((state) => state.connected.connection);
+
+const increase=()=>{
+  setCount(count+1)
+}
+const decreaing=()=>{
+  setCount(count-1)
+}
+
+
+
 
   const callNFT = async () => {
     try {
       const web3 = new Web3(Web3.givenProvider);
       const contract = new web3.eth.Contract(abiConstants, addressConstants);
-      const tokenId = 13; // Provide the token ID for which you want to retrieve the URI
+      // await contract.methods.Mint().estimateGas({
+      //   from: addr,
+      //   value: web3.utils.toWei("0.00003", "ether"),
+      // })
+      await contract.methods.Mint().send({
+        from: addr,
+        value: web3.utils.toWei("0.0003", "ether"),
+      })
+        const owner = await contract.methods.walletOfOwner(addr).call();
+    console.log("Token URI:", owner);
+      const tokenId = count; // Provide the token ID for which you want to retrieve the URI
       const uri = await contract.methods.tokenURI(tokenId).call();
       console.log("Token URI:", uri);
+     
       
   setImg(uri)
+  setMintedNFTs((prevNFTs) => [...prevNFTs, uri]);
       // Handle the URI as needed
     } catch (error) {
       console.error("Error retrieving token URI:", error);
+      // console.error("Error retrieving wallet owner:", owner);
       // Handle the error appropriately
     }
   };
 
-  useEffect(() => {
-    callNFT();
+;
+
+
+  // useEffect(() => {
+  //   callNFT();
   
-  }, []);
+  // }, []);
 
   return (
     <div className="bgHomeColor py-4 " id="mint">
@@ -76,15 +106,17 @@ const Home = () => {
                   <p>Price per Plane - 90 ARB Each</p>
                   <h1 className="text-white fw-bolder">0/3,333</h1>
                   <div className="d-flex  justify-content-center  align-items-center ">
-                    <button className="card-btn" >
+                    <button className="card-btn" onClick={()=>{increase()}}>
                       +
                     </button>
                     <input
                       type="text"
-                      
+                      value={count}
                       className="input-field p-2 mx-3 text-center fw-bold "
                     />
-                    <button className="card-btn" >
+                    <button className="card-btn"onClick={()=>{
+                      decreaing()
+                    }}>
                       -
                     </button>
                   </div>
@@ -92,13 +124,18 @@ const Home = () => {
                   <p className="lh-sm ">5 Max</p>
                   <div className="button-width">
                     <div>
-                      <button
-                        className="px-3 py-1 text-uppercase connectWalletBtn py-2 mb-3  fw-bold "
-                        onClick={() => {
-                          dispatch(connectionAction())}}
-                        
-                      >
-                {addr}
+                    <button
+        className="px-3 py-1 text-uppercase connectWalletBtn py-2 mb-3  fw-bold "
+        onClick={() => {
+          dispatch(connectionAction());
+         
+        }}
+      >
+                {addr
+                ? addr?.substring(0, 4) +
+                "..." +
+                addr?.substring(addr?.length - 4):"Connect Wallet"} 
+                
                         {/* Connect Wallet */}
                        
                       </button>
@@ -140,7 +177,9 @@ const Home = () => {
                   <h4 className="fw-bold pb-5">NFT CARD OWNERSHIP FEATURES</h4>
                 </div>
                 <div className="">
-                <img src={img} width="200px"/>
+                  {mintedNFTs.map((nft, index) => (
+            <img key={index} src={nft} width="400px" alt={`NFT ${index}`} />
+          ))}
                   {/* <Box sx={{ maxWidth: 400 }}>
                     <Stepper orientation="vertical">
                       {steps.map((step, index) => (
@@ -164,6 +203,7 @@ const Home = () => {
             </div>
           </div>
         </div>
+        
       </div>
       {/* <MyNftModel
     
