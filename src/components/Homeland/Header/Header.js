@@ -95,7 +95,7 @@ const Header = ({ address, connect, renderWalletAddress }) => {
                 </a>
               </li>
             </ul>
-            <div class="d-flex">
+            <div className="d-flex">
               <button
                 className="px-3 py-1 text-uppercase connectWalletBtn py-2  fw-bold "
                 onClick={connect}

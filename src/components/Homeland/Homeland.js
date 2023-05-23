@@ -11,6 +11,8 @@ import { connectionAction } from "../../redux/connection/actions";
 import { abiConstants, addressConstants } from "../contract/contract";
 import Web3 from "web3";
 import "./Home.css"
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import homeHeaderImg from "../../assets/Group 773.png";
 import Plane from "../../assets/Plane.png";
 import companyLogo from "../../assets/logo.png";
@@ -46,6 +48,7 @@ const [mintedNFTs, setMintedNFTs] = useState([]);
 
 const increase=()=>{
   setCount(count+1)
+
 }
 const decreaing=()=>{
   setCount(count-1)
@@ -58,41 +61,29 @@ const decreaing=()=>{
     try {
       const web3 = new Web3(Web3.givenProvider);
       const contract = new web3.eth.Contract(abiConstants, addressConstants);
-      // await contract.methods.Mint().estimateGas({
-      //   from: addr,
-      //   value: web3.utils.toWei("0.00003", "ether"),
-      // })
+    
       await contract.methods.Mint().send({
         from: addr,
         value: web3.utils.toWei("0.0003", "ether"),
+        
       })
-        const owner = await contract.methods.walletOfOwner(addr).call();
-    console.log("Token URI:", owner);
-      const tokenId = count; // Provide the token ID for which you want to retrieve the URI
-      const uri = await contract.methods.tokenURI(tokenId).call();
-      console.log("Token URI:", uri);
-     
       
-  setImg(uri)
-  setMintedNFTs((prevNFTs) => [...prevNFTs, uri]);
-      // Handle the URI as needed
-    } catch (error) {
-      console.error("Error retrieving token URI:", error);
-      // console.error("Error retrieving wallet owner:", owner);
-      // Handle the error appropriately
-    }
-  };
-
-;
-
-
-  // useEffect(() => {
-  //   callNFT();
+      
+      toast.success('minting successful ')
+      } catch (error) {
+        console.error("Error retrieving token URI:", error);
+        toast.error('Error retrieving token URI ')
+      }
+    };
   
-  // }, []);
+   
+
+
+
 
   return (
     <div className="bgHomeColor py-4 " id="mint">
+       
       <div className="bgNftImg">
         <div className="container">
           <div className="row justify-content-center">
@@ -146,6 +137,7 @@ const decreaing=()=>{
                       <Link to="/myNft">
                         <button
                           className="homeCardBtn"
+                          mintedNFTs={mintedNFTs}
                           // data-bs-toggle="modal"
                           // data-bs-target="#exampleModal"
                         >
@@ -177,10 +169,10 @@ const decreaing=()=>{
                   <h4 className="fw-bold pb-5">NFT CARD OWNERSHIP FEATURES</h4>
                 </div>
                 <div className="">
-                  {mintedNFTs.map((nft, index) => (
+                  {/* {mintedNFTs.map((nft, index) => (
             <img key={index} src={nft} width="400px" alt={`NFT ${index}`} />
-          ))}
-                  {/* <Box sx={{ maxWidth: 400 }}>
+          ))} */}
+                  <Box sx={{ maxWidth: 400 }}>
                     <Stepper orientation="vertical">
                       {steps.map((step, index) => (
                         <Step key={step.label}>
@@ -197,7 +189,7 @@ const decreaing=()=>{
                         </Step>
                       ))}
                     </Stepper>
-                  </Box> */}
+                  </Box>
                 </div>
               </div>
             </div>
@@ -210,9 +202,9 @@ const decreaing=()=>{
       /> */}
 
       
-     
+<ToastContainer />
     </div>
   );
 };
 
-export default Home;
+export  default Home;

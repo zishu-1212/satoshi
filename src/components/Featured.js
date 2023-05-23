@@ -54,7 +54,7 @@ function Featured() {
                     
                     <OwlCarousel className="owl-theme" {...FeaturedOwl1} >
                         
-                        <div class="box m-2 d-flex justify-content-center align-items-center flex-column">
+                        <div className="box m-2 d-flex justify-content-center align-items-center flex-column">
                             <img src={DigitalJournal} className="logo mb-4" alt="DigitalJournal" />
                             <a href="https://www.digitaljournal.com/pr/news/satoshi-airlines-the-first-fly-to-earn-app-web3-air-travel-lifestyle-application" target="_blank" rel="noreferrer"><img src={ReadButton} alt="Button" className='btn' /></a>
                         </div>

@@ -15,7 +15,7 @@ function Header() {
                     <a href="/" className='logo-link'><img className='logo' src={Logo} alt="" /></a>
                     <img data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" className='hamburger-icon' src={Icon} alt="" />
 
-                    <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                    <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                         <div className="offcanvas-header">
                             <h4 id="offcanvasRightLabel" className='fw-800'>Menu</h4>
                             <button type="button" className="btn-close close-primary text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
