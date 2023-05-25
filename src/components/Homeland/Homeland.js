@@ -11,10 +11,12 @@ import { connectionAction } from "../../redux/connection/actions";
 import { abiConstants, addressConstants } from "../contract/contract";
 import Web3 from "web3";
 import "./Home.css"
+import pinkPlane from "../../assets/pinkPlane.png";
+import Modal from 'react-bootstrap/Modal';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import homeHeaderImg from "../../assets/Group 773.png";
-import Plane from "../../assets/Plane.png";
+import Plane from "../../assets/yellowPlane.png";
 import companyLogo from "../../assets/logo.png";
 import cloudImg from "../../assets/cloud.png";
 import largeCloudImg from "../../assets/largeCloud.png";
@@ -40,7 +42,7 @@ const steps = [
 
 const Home = () => {
 const [count, setCount] = useState(0);
-const [mintedNFTs, setMintedNFTs] = useState([]);
+const [showModal, setShowModal] = useState(false);
 
   const [img, setImg]=useState ("")
   const dispatch = useDispatch();
@@ -62,14 +64,15 @@ const decreaing=()=>{
       const web3 = new Web3(Web3.givenProvider);
       const contract = new web3.eth.Contract(abiConstants, addressConstants);
     
-      await contract.methods.Mint().send({
+      const jjwj=await contract.methods.Mint().send({
         from: addr,
         value: web3.utils.toWei("0.0003", "ether"),
         
       })
       
-      
+      console.log(jjwj);
       toast.success('minting successful ')
+      setShowModal(true);
       } catch (error) {
         console.error("Error retrieving token URI:", error);
         toast.error('Error retrieving token URI ')
@@ -77,10 +80,12 @@ const decreaing=()=>{
     };
   
    
+    
 
 
-
-
+    useEffect(() => {
+     
+  },[]);
   return (
     <div className="bgHomeColor py-4 " id="mint">
        
@@ -137,13 +142,46 @@ const decreaing=()=>{
                       <Link to="/myNft">
                         <button
                           className="homeCardBtn"
-                          mintedNFTs={mintedNFTs}
-                          // data-bs-toggle="modal"
-                          // data-bs-target="#exampleModal"
+                         
+                       
                         >
                           MY NFT
                         </button>
                       </Link>
+                      <Modal show={showModal} onHide={() => setShowModal(false)}    centered > 
+        <Modal.Header closeButton>
+          
+        </Modal.Header>
+        <Modal.Body>
+        <div className="container py-3 pb-5">
+            <div className="row justify-content-center align-items-center">
+              <div className="col-11 nft-transfer-card   ">
+               
+                <div className=" mx-auto text-center">
+                  <h4 className="text-center fw-bold mb-2">Congratulations!</h4>
+                  
+                <p className="got-plane">You got a plane NFT card !</p>
+                <div className="back-img ">
+                  <div className="card nft-transfer-img-card width-set mx-auto" >
+                    <img
+                      src={Plane}
+                      className="card-img-top img-fluid"
+                      alt="..."
+                    />
+                    <div className="card-body d-flex nftTRansfer-card-body flex-column justify-content-between align-items-center">
+                      <h6 className="card-text fw-bold pt-1">COMMON</h6>
+                      <h6 className="card-title fw-bold">#0001</h6>
+                    </div>
+                  </div></div>
+
+               
+                </div>
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
+        
+      </Modal>
                     </div>
                   </div>
                 </div>
@@ -169,9 +207,7 @@ const decreaing=()=>{
                   <h4 className="fw-bold pb-5">NFT CARD OWNERSHIP FEATURES</h4>
                 </div>
                 <div className="">
-                  {/* {mintedNFTs.map((nft, index) => (
-            <img key={index} src={nft} width="400px" alt={`NFT ${index}`} />
-          ))} */}
+               
                   <Box sx={{ maxWidth: 400 }}>
                     <Stepper orientation="vertical">
                       {steps.map((step, index) => (

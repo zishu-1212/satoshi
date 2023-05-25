@@ -24,7 +24,7 @@
 }
 
 .nft-transfer-img-card {
-  border-radius: 15px;
+  border-radius: 20px !important;
   box-shadow: 2px 3px black;
 }
 
@@ -36,12 +36,11 @@
   border-radius: 50%;
 }
 
-.nft-Transfer-Input {
-  padding: 3px;
-  border-radius: 10px;
-  border: 1px solid black;
-}
+
 
 .nftTRansfer-card-body {
   padding: 0;
+}
+.bann{
+  background: transparent !important;
 }

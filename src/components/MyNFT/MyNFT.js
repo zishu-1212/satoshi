@@ -7,9 +7,14 @@ import pinkPlane from "../../assets/blackPlane.png";
 import NftTransferModel from "../../Model/NftTransferModel";
 import { useDispatch, useSelector } from "react-redux";
 const MyNFT = ({ myNftCardData, connect, address }) => {
-  const [mintedNFTs, setMintedNFTs] = useState([]);
+
+  const [isUpdated, setIsUpdated] = useState(false);
+
   const [count, setCount] = useState(0);
+  const [tokn,setTokn]=useState("");
   const [img, setImg]=useState ("")
+  const [selectedNFT, setSelectedNFT] = useState(null); // State variable for selected NFT
+  const [selectedNFTImg, setSelectedNFTImg] = useState(null); // State variable for selected NFT
   const dispatch = useDispatch();
   const addr = useSelector((state) => state.connected.connection);
 
@@ -25,7 +30,7 @@ const MyNFT = ({ myNftCardData, connect, address }) => {
       let walletOfOwner = await nftContractOf.methods.walletOfOwner(addr).call();
       let walletLength = walletOfOwner.length;
   
-      console.log("walletLength", walletLength);
+      // console.log("walletLength", walletLength);
       let simplleArray = [];
   
       for (let i = 0; i < walletLength; i++) {
@@ -33,7 +38,8 @@ const MyNFT = ({ myNftCardData, connect, address }) => {
           const uri = await nftContractOf.methods.tokenURI(i).call();
         
           const tokenid = walletOfOwner[i];
-  console.log("dnjdfk",uri);
+          setTokn(tokenid)
+  // console.log("url of image",uri);
           simplleArray = [...simplleArray, { imageUrl: uri, tokenid: tokenid }];
           setImageArray(simplleArray);
         } catch (e) {
@@ -45,7 +51,10 @@ const MyNFT = ({ myNftCardData, connect, address }) => {
     }
   };
 
-
+  const handleTransferNFT = (tokenid,imageUrl) => {
+    setSelectedNFT(tokenid);
+    setSelectedNFTImg(imageUrl)
+  }
 
 
   
@@ -64,7 +73,8 @@ const MyNFT = ({ myNftCardData, connect, address }) => {
                 
 
                 <h3 className="text-center fw-bold mt-3">MY NFT</h3>
-                <div className="row  mx-auto pt-4">
+                
+                <div className="row  mx-auto pb-5 ">
                   { imageArray.map((items, index) => {
                                     return (
                     <div
@@ -72,7 +82,7 @@ const MyNFT = ({ myNftCardData, connect, address }) => {
                       key={index}
                
                     > 
-                      <div className="card card-withd ">
+                      <div className="card card-withd nft-transfer-img-card">
                      
                       <img src={items.imageUrl} className="card-img-top img-fluid"/>
     
@@ -84,10 +94,10 @@ const MyNFT = ({ myNftCardData, connect, address }) => {
                           <div className="">
                             <a
                               href="#"
-                              class="btn nft-transfer-btn fw-bold"
+                              class="btn nft-transfer-btn fw-bold nft-button-shadow"
                               data-bs-toggle="modal"
                               data-bs-target="#exampleModale"
-                              
+                              onClick={() => handleTransferNFT(items.tokenid,items.imageUrl)} // Pass the token ID when transfer button 
                             >
                               Transfer
                             </a>
@@ -98,7 +108,7 @@ const MyNFT = ({ myNftCardData, connect, address }) => {
                                 })}
                
 
-                <div className="pt-3 d-flex justify-content-center">
+                {/* <div className="pt-3 d-flex justify-content-center">
                   <nav aria-label="Page navigation example">
                     <ul className="pagination">
                       <li className="page-item ">
@@ -141,13 +151,15 @@ const MyNFT = ({ myNftCardData, connect, address }) => {
                       </li>
                     </ul>
                   </nav>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
         </div>
       </div>
-      <NftTransferModel
+      <NftTransferModel selectedTokenId={selectedNFT} selectedNFTImg={selectedNFTImg}
+       isUpdated={isUpdated}
+       setIsUpdated={setIsUpdated}
       // {/* // address={walletAddress}
       // // walletAddress={address}
       // // connect={connected}

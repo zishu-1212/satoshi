@@ -48,3 +48,41 @@ body {
     line-height: 20px;
   }
 }
+.icon-color{
+  font-size: 30px !important;
+  color: #62C8A9 !important;
+}
+.nft-Transfer-Input {
+  padding: 10px 0 10px 0 !important;
+  border-radius: 10px !important;
+  border: 1px solid black !important;
+}
+.checkIcon {
+  font-size: 2.5rem !important;
+  opacity: 1 !important;
+  fill: #25cdb1 !important;
+}
+
+.checkIconBox {
+  border: none;
+  background-color: transparent;
+}
+.nft-transfer-img-card{
+  box-shadow: 5px 7px #62C8A9 !important;
+}
+.nft-button-shadow{
+  box-shadow: 3px 4px #e9e49f !important;
+}
+.got-plane{
+  font-size: 12px !important;
+}
+.btn-close{
+  background-color: #50a58b  !important;
+  border-radius: 50pc !important;
+}
+.back-img{
+  background-image: url("./assets/Rectangle 260.png");
+}
+.width-set{
+  width: 15rem !important;
+}

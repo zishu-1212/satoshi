@@ -11,7 +11,7 @@ function Intro() {
 
     const options1 = {
         autoplay: true,
-        autoplayhoverpause: "true",
+        autoplayhoverpause: true,
         autoplaytimeout: 100,
         items: 1,
         nav: false,

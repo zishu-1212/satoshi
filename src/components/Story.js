@@ -13,7 +13,7 @@ function Story() {
    
     const options2 = {
         autoplay: true,
-        autoplayhoverpause: "true",
+        autoplayhoverpause: true,
         autoplaytimeout: 100,
         items: 1,
         nav: true,
