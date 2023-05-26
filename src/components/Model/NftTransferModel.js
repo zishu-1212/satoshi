@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import pinkPlane from "../assets/lightRedPlane.png";
+import pinkPlane from "../../assets/lightRedPlane.png";
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { ToastContainer, toast } from 'react-toastify'
-import close from "../assets/Group_632-removebg-preview-removebg-preview.png"
+import close from "../../assets/Group_632-removebg-preview-removebg-preview.png"
 import {
   abiConstants,
   addressConstants,
-} from "../components/contract/contract";
+} from "../contract/contract";
 import { useDispatch, useSelector } from "react-redux";
 const NftTransferModel = ({
   walletAddress,

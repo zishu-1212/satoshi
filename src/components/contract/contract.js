@@ -1,4 +1,4 @@
-export const addressConstants = "0x426672FD65937e24799c7Ba34D345Cfb6D2C1723";
+export const addressConstants = "0x42cbd7C72d97CeEcC259C72f98B3d9E46e8F0531";
 export const abiConstants = [
   { inputs: [], stateMutability: "nonpayable", type: "constructor" },
   {
@@ -107,6 +107,21 @@ export const abiConstants = [
     type: "event",
   },
   {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "from", type: "address" },
+      { indexed: true, internalType: "address", name: "to", type: "address" },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "mintNFT",
+    type: "event",
+  },
+  {
     inputs: [],
     name: "MAX_SUPPLY",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
@@ -114,17 +129,10 @@ export const abiConstants = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "MINT_PRICE",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
+    inputs: [{ internalType: "uint256", name: "count", type: "uint256" }],
     name: "Mint",
     outputs: [],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -183,13 +191,6 @@ export const abiConstants = [
     name: "lockBaseURI",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "minting_Limit",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -378,13 +379,6 @@ export const abiConstants = [
   {
     inputs: [],
     name: "unPause",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "_price", type: "uint256" }],
-    name: "updateMintPrice",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

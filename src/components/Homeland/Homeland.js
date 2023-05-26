@@ -10,11 +10,11 @@ import Typography from "@mui/material/Typography";
 import { connectionAction } from "../../redux/connection/actions";
 import { abiConstants, addressConstants } from "../contract/contract";
 import Web3 from "web3";
-import "./Home.css"
+import "./Home.css";
 import pinkPlane from "../../assets/pinkPlane.png";
-import Modal from 'react-bootstrap/Modal';
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
+import Modal from "react-bootstrap/Modal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import homeHeaderImg from "../../assets/Group 773.png";
 import Plane from "../../assets/yellowPlane.png";
 import companyLogo from "../../assets/logo.png";
@@ -22,6 +22,7 @@ import cloudImg from "../../assets/cloud.png";
 import largeCloudImg from "../../assets/largeCloud.png";
 import blackPlane from "../../assets/Planee.png";
 import { Link } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 const steps = [
   {
     label: "Sap Rewards Via Fly-to-Earn",
@@ -40,55 +41,49 @@ const steps = [
   },
 ];
 
-const Home = () => {
-const [count, setCount] = useState(0);
-const [showModal, setShowModal] = useState(false);
+const Home = (selectedTokenId, selectedNFTImg,send) => {
+  const [count, setCount] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
-  const [img, setImg]=useState ("")
+  const [isMinting, setIsMinting] = useState(false);
+  const [img, setImg] = useState("");
   const dispatch = useDispatch();
   const addr = useSelector((state) => state.connected.connection);
 
-const increase=()=>{
-  setCount(count+1)
-
-}
-const decreaing=()=>{
-  setCount(count-1)
-}
-
-
-
+  const increase = () => {
+    setCount(count + 1);
+  };
+  const decreaing = () => {
+    setCount(count - 1);
+  };
 
   const callNFT = async () => {
+    if (isMinting) return; // Prevent multiple minting requests
+    setIsMinting(true);
+
     try {
       const web3 = new Web3(Web3.givenProvider);
       const contract = new web3.eth.Contract(abiConstants, addressConstants);
-    
-      const jjwj=await contract.methods.Mint().send({
+
+      const jjwj = await contract.methods.Mint("1").send({
         from: addr,
-        value: web3.utils.toWei("0.0003", "ether"),
-        
-      })
-      
+        // value: web3.utils.toWei("0.0003", "ether"),
+      });
+
+      setIsMinting(false);
       console.log(jjwj);
-      toast.success('minting successful ')
+      toast.success("minting successful ");
       setShowModal(true);
-      } catch (error) {
-        console.error("Error retrieving token URI:", error);
-        toast.error('Error retrieving token URI ')
-      }
-    };
-  
-   
-    
+    } catch (error) {
+      console.error("Error retrieving token URI:", error);
+      toast.error("Error retrieving token URI ");
+      setIsMinting(false);
+    }
+  };
 
-
-    useEffect(() => {
-     
-  },[]);
+  useEffect(() => {}, []);
   return (
     <div className="bgHomeColor py-4 " id="mint">
-       
       <div className="bgNftImg">
         <div className="container">
           <div className="row justify-content-center">
@@ -99,10 +94,17 @@ const decreaing=()=>{
               <div className="row justify-content-center pt-5">
                 <div className="col-10 col-md-8 col-lg-6 card-bg p-4 text-center ">
                   <h5 className="fw-bold">MINT YOUR PLANE FOR FUTURE REWARD</h5>
-                  <p>Price per Plane - 90 ARB Each</p>
+                  <p className="fw-bold fs-6">
+                    Price per Plane - 0.005 ARB Each
+                  </p>
                   <h1 className="text-white fw-bolder">0/3,333</h1>
                   <div className="d-flex  justify-content-center  align-items-center ">
-                    <button className="card-btn" onClick={()=>{increase()}}>
+                    <button
+                      className="card-btn"
+                      onClick={() => {
+                        increase();
+                      }}
+                    >
                       +
                     </button>
                     <input
@@ -110,79 +112,104 @@ const decreaing=()=>{
                       value={count}
                       className="input-field p-2 mx-3 text-center fw-bold "
                     />
-                    <button className="card-btn"onClick={()=>{
-                      decreaing()
-                    }}>
+                    <button
+                      className="card-btn"
+                      onClick={() => {
+                        decreaing();
+                      }}
+                    >
                       -
                     </button>
                   </div>
-                  <p className="pt-2 lh-sm  mb-0">Total 90 Arb</p>
-                  <p className="lh-sm ">5 Max</p>
+                  <p className="pt-2 lh-sm fw-bold fs-6 my-2">
+                    Total 0.005 Arb
+                  </p>
+                  {/* <p className="lh-sm ">5 Max</p> */}
                   <div className="button-width">
                     <div>
-                    <button
-        className="px-3 py-1 text-uppercase connectWalletBtn py-2 mb-3  fw-bold "
-        onClick={() => {
-          dispatch(connectionAction());
-         
-        }}
-      >
-                {addr
-                ? addr?.substring(0, 4) +
-                "..." +
-                addr?.substring(addr?.length - 4):"Connect Wallet"} 
-                
+                      <button
+                        className="px-3 py-1 text-uppercase connectWalletBtn py-2 mb-3  fw-bold "
+                        onClick={() => {
+                          dispatch(connectionAction());
+                        }}
+                      >
+                        {addr
+                          ? addr?.substring(0, 4) +
+                            "..." +
+                            addr?.substring(addr?.length - 4)
+                          : "Connect Wallet"}
+
                         {/* Connect Wallet */}
-                       
                       </button>
                     </div>
 
-                    <div className="d-flex justify-content-evenly   ">
-                      <button className="homeCardBtn"onClick={()=>{callNFT()}} > MINT </button>
-                      <Link to="/myNft">
+                    {isMinting ? (
+                      <ThreeDots
+                        height={70}
+                        width={70}
+                        color="#25cdb1"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{ justifyContent: "center" }}
+                        wrapperClassName=""
+                        visible={true}
+                      />
+                    ) : (
+                      <div className="d-flex justify-content-evenly   ">
                         <button
-                          className="homeCardBtn"
-                         
-                       
+                          className="homeCardBtn "
+                          onClick={() => {
+                            callNFT();
+                          }}
                         >
-                          MY NFT
+                          Mint
                         </button>
-                      </Link>
-                      <Modal show={showModal} onHide={() => setShowModal(false)}    centered > 
-        <Modal.Header closeButton>
-          
-        </Modal.Header>
-        <Modal.Body>
-        <div className="container py-3 pb-5">
-            <div className="row justify-content-center align-items-center">
-              <div className="col-11 nft-transfer-card   ">
-               
-                <div className=" mx-auto text-center">
-                  <h4 className="text-center fw-bold mb-2">Congratulations!</h4>
-                  
-                <p className="got-plane">You got a plane NFT card !</p>
-                <div className="back-img ">
-                  <div className="card nft-transfer-img-card width-set mx-auto" >
-                    <img
-                      src={Plane}
-                      className="card-img-top img-fluid"
-                      alt="..."
-                    />
-                    <div className="card-body d-flex nftTRansfer-card-body flex-column justify-content-between align-items-center">
-                      <h6 className="card-text fw-bold pt-1">COMMON</h6>
-                      <h6 className="card-title fw-bold">#0001</h6>
-                    </div>
-                  </div></div>
+                        <Link to="/myNft">
+                          <button className="homeCardBtn">MY NFT</button>
+                        </Link>
+                      </div>
+                    )}
 
-               
-                </div>
-              </div>
-            </div>
-          </div>
-        </Modal.Body>
-        
-      </Modal>
-                    </div>
+                    <Modal show={showModal} onHide={() => setShowModal(false)}>
+                      <Modal.Header
+                        closeButton
+                        className="m-3"
+                        style={{ borderBottom: "none" }}
+                      ></Modal.Header>
+                      <Modal.Body>
+                        <div className="container py-3 pb-5">
+                          <div className="row justify-content-center align-items-center">
+                            <div className="col-11 nft-transfer-card   ">
+                              <div className=" mx-auto text-center">
+                                <h4 className="text-center fw-bold mb-2">
+                                  Congratulations!
+                                </h4>
+
+                                <p className="got-plane">
+                                  You got a plane NFT card !
+                                </p>
+                                <div className="back-img ">
+                                  <div className="card nft-transfer-img-card width-set mx-auto">
+                                    <img
+                                      src={Plane}
+                                      className="card-img-top img-fluid"
+                                      alt="..."
+                                    />
+                                    <div className="card-body d-flex nftTRansfer-card-body flex-column justify-content-between align-items-center">
+                                      <h6 className="card-text fw-bold pt-1">
+                                        COMMON
+                                      </h6>
+                                      <h6 className="card-title fw-bold">
+                                       {send}
+                                      </h6>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Modal.Body>
+                    </Modal>
                   </div>
                 </div>
 
@@ -207,7 +234,6 @@ const decreaing=()=>{
                   <h4 className="fw-bold pb-5">NFT CARD OWNERSHIP FEATURES</h4>
                 </div>
                 <div className="">
-               
                   <Box sx={{ maxWidth: 400 }}>
                     <Stepper orientation="vertical">
                       {steps.map((step, index) => (
@@ -231,16 +257,14 @@ const decreaing=()=>{
             </div>
           </div>
         </div>
-        
       </div>
       {/* <MyNftModel
     
       /> */}
 
-      
-<ToastContainer />
+      <ToastContainer />
     </div>
   );
 };
 
-export  default Home;
+export default Home;
