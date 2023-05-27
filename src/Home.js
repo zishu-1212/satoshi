@@ -30,53 +30,9 @@ import {
   addressConstants,
 } from "./components/contract/contract";
 function Home() {
-  let [imageArray, setImageArray] = useState([]);
- const [send,setSend]=useState("");
-  const [tokn, setTokn] = useState("");
-  const [call, setCall] = useState();
-  const dispatch = useDispatch();
-  const addr = useSelector((state) => state.connected.connection);
+
  
 
-  const allImagesNfts = async () => {
-    try {
-      const web3 = window.web3;
-      let nftContractOf = new web3.eth.Contract(
-        abiConstants,
-        addressConstants
-      );
-
-      let simplleArray = [];
-      let walletOfOwner = await nftContractOf.methods
-        .walletOfOwner(addr)
-        .call();
-      
-      if (!walletOfOwner) {
-        toast.error('Wallet of owner is undefined or empty');
-        console.log('Wallet of owner is undefined or empty');
-        return;
-      }
-
-      let walletLength = walletOfOwner.length;
-
-      for (let i = 0; i < walletLength; i++) {
-        try {
-          const uri = await nftContractOf.methods.tokenURI(i).call();
-          let tokenid = walletOfOwner[i];
-          setSend(tokenid)
-          simplleArray = [
-            ...simplleArray,
-            { imageUrl: uri, tokenid: tokenid },
-          ];
-          setImageArray(simplleArray);
-        } catch (e) {
-          console.log('Error while Fetching Api', e);
-        }
-      }
-    } catch (error) {
-      console.log('Error:', error);
-    }
-  };
 
   return (
     <div className="Home">
@@ -97,7 +53,7 @@ function Home() {
                 <Token />
                 <Tokenomics />
                 <HowToPlay />
-                <Homeland send={send} />
+                <Homeland   />
                 <Space />
                 <Roadmap />
                 <Featured />

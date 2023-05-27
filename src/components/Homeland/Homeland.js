@@ -4,25 +4,20 @@ import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import StepContent from "@mui/material/StepContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { connectionAction } from "../../redux/connection/actions";
 import { abiConstants, addressConstants } from "../contract/contract";
 import Web3 from "web3";
 import "./Home.css";
-import pinkPlane from "../../assets/pinkPlane.png";
 import Modal from "react-bootstrap/Modal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import homeHeaderImg from "../../assets/Group 773.png";
-import Plane from "../../assets/yellowPlane.png";
 import companyLogo from "../../assets/logo.png";
-import cloudImg from "../../assets/cloud.png";
-import largeCloudImg from "../../assets/largeCloud.png";
 import blackPlane from "../../assets/Planee.png";
 import { Link } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
+import { fetchNFTsData } from "../../redux/connection/actions";
 const steps = [
   {
     label: "Sap Rewards Via Fly-to-Earn",
@@ -41,14 +36,18 @@ const steps = [
   },
 ];
 
-const Home = (selectedTokenId, selectedNFTImg,send) => {
+const Home = () => {
   const [count, setCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
   const [isMinting, setIsMinting] = useState(false);
-  const [img, setImg] = useState("");
   const dispatch = useDispatch();
   const addr = useSelector((state) => state.connected.connection);
+  const nfts = useSelector((state) => state.myNft.nfts);
+
+  useEffect(() => {
+    dispatch(fetchNFTsData(addr));
+  }, [dispatch, addr]);
 
   const increase = () => {
     setCount(count + 1);
@@ -178,34 +177,42 @@ const Home = (selectedTokenId, selectedNFTImg,send) => {
                       <Modal.Body>
                         <div className="container py-3 pb-5">
                           <div className="row justify-content-center align-items-center">
-                            <div className="col-11 nft-transfer-card   ">
-                              <div className=" mx-auto text-center">
-                                <h4 className="text-center fw-bold mb-2">
-                                  Congratulations!
-                                </h4>
+                            {nfts
+                              .slice(-1)
+                              .reverse()
+                              .map((nfts, index) => (
+                                <div
+                                  className="col-11 nft-transfer-card   "
+                                  key={index}
+                                >
+                                  <div className=" mx-auto text-center">
+                                    <h4 className="text-center fw-bold mb-2">
+                                      Congratulations!
+                                    </h4>
 
-                                <p className="got-plane">
-                                  You got a plane NFT card !
-                                </p>
-                                <div className="back-img ">
-                                  <div className="card nft-transfer-img-card width-set mx-auto">
-                                    <img
-                                      src={Plane}
-                                      className="card-img-top img-fluid"
-                                      alt="..."
-                                    />
-                                    <div className="card-body d-flex nftTRansfer-card-body flex-column justify-content-between align-items-center">
-                                      <h6 className="card-text fw-bold pt-1">
-                                        COMMON
-                                      </h6>
-                                      <h6 className="card-title fw-bold">
-                                       {send}
-                                      </h6>
+                                    <p className="got-plane">
+                                      You got a plane NFT card !
+                                    </p>
+                                    <div className="back-img ">
+                                      <div className="card nft-transfer-img-card width-set mx-auto">
+                                        <img
+                                          src={nfts.imageUrl}
+                                          className="card-img-top img-fluid"
+                                          alt="..."
+                                        />
+                                        <div className="card-body d-flex nftTRansfer-card-body flex-column justify-content-between align-items-center">
+                                          <h6 className="card-text fw-bold pt-1">
+                                            COMMON
+                                          </h6>
+                                          <h6 className="card-title fw-bold">
+                                            {nfts.tokenid}
+                                          </h6>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            </div>
+                              ))}
                           </div>
                         </div>
                       </Modal.Body>
